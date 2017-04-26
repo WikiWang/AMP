@@ -1,0 +1,9 @@
+.git
+target
+.classpath
+*.properties
+.idea/
+.settings
+logs
+pom.xml
+.project

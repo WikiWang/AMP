@@ -1,0 +1,63 @@
+.box {
+	/* width: 400px;
+	height: 350px; */
+	cursor: move;
+	position: absolute; 
+	/* position:relative; */
+	float:left;
+	/* top: 30px;
+	left: 30px; */
+	/* bottom:30px; */
+	background-color: #FFF;
+	border: 1px solid #CCCCCC;
+	-webkit-box-shadow: 10px 10px 25px #ccc;
+	-moz-box-shadow: 10px 10px 25px #ccc;
+	box-shadow: 10px 10px 25px #ccc;
+	/* filter: alpha(opacity = 25); IE
+	opacity: 0.25; Mozilla */
+	background: rgba(181,174,174, 0.25);
+	/* background-image: url(data:image/gif;base64,AAAA); */
+}
+
+.boxFilter{
+	filter: alpha(opacity = 99); /* IE */
+	opacity: 0.99; /* Mozilla */
+	background: rgba(181,174,174, 0) !important;
+	cursor: default !important;;
+}
+
+.coor {
+	width: 10px;
+	height: 10px;
+	overflow: hidden;
+	cursor: se-resize;
+	position: absolute;
+	/* position:relative; */
+	right: 0;
+	bottom: 0;
+	background-color: #09C;
+}
+
+.coorFilter {
+	width: 0px !important;
+	height: 0px !important;
+	cursor: default !important;
+}
+
+.delete {
+	width: 15px;
+	height: 15px;
+	overflow: hidden;
+	cursor: pointer;
+	position: absolute;
+	/* position:relative; */
+	right: 2px;
+	top: 2px;
+	/* background-color: #09C; */
+}
+
+.deleteFilter {
+	width: 0px !important;
+	height: 0px !important;
+	cursor: default !important;
+}

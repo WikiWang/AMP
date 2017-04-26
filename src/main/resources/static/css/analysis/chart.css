@@ -1,0 +1,25 @@
+.chart_panel {
+    margin:15px 10px 10px 10px;
+    max-height: none;
+}
+
+.chart_table{
+    margin:15px 10px 10px 10px;
+	display: block;
+}
+
+#chart_table .td{
+	min-width: 15px;
+}
+
+.my_table{
+    margin:0;
+}
+
+.tr_red{
+	color: red !important;
+}
+
+.tr_black{
+	color: black !important;
+}
