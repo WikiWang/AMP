@@ -1,5 +1,6 @@
 var type = "dataArea";
 var id = null;
+var key;
 var left_tree;
 var middle_tree;
 /**

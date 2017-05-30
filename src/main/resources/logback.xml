@@ -81,15 +81,15 @@
 		</encoder>
 	</appender>
 
-	<logger name="cn.edu.buaa.amp.MetricInterceptor" level="INFO" additivity="false">
+	<logger name="cn.edu.buaa.amp.MetricInterceptor" level="DEBUG" additivity="false">
 		<appender-ref ref="RUNNINGFILE" />
 	</logger>
 	
 	
 	<root>
 	    <appender-ref ref="STDOUT" />
-		<appender-ref ref="ALLFILE" />
-		<appender-ref ref="ERRORFILE" />		
+		<!-- <appender-ref ref="ALLFILE" />
+		<appender-ref ref="ERRORFILE" /> -->		
 	</root>
 	
 </configuration>
