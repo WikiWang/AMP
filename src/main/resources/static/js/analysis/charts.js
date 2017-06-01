@@ -441,37 +441,43 @@ function initTransac(){
 			var ifSame = true;
 			var ifFirstValue=true;
 			var lastValue;
+			var version="";
 			for(var j=0; j<leftNodes.length; j++){
 				if(!leftNodes[j].isParent){
-					$.ajax({
-						type: 'GET',
-						url: "/Analysis/DataValue",
-						async: false,
-						data: {id:mainId, parentId:middleNodes[k].id, version:leftNodes[j].version, type:type},
-						dataType: 'json',
-						success:function(data){
-							if(data[0] != null){
-								newTdRow += "<td>"+ data[0].value +"</td>";
-								rowArray.push(data[0].value);
-								if(ifFirstValue){
-									lastValue = data[0].value;
-									ifFirstValue = false;
-								}else if(lastValue != data[0].value){
-									ifSame = false;
-								}
-							}else{
-								newTdRow += "<td></td>";
-								rowArray.push(null);
-							}
-						},
-						error:function (XMLHttpRequest, textStatus, errorThrown) 
-						{ 
-							newTdRow += "<td></td>";
-							rowArray.push(null);
-						} 
-					});
+					version += leftNodes[j].version + ",";
 				}
 			}
+			$.ajax({
+				type: 'GET',
+				url: "/Analysis/DataValue",
+				async: false,
+				data: {id:mainId, parentId:middleNodes[k].id, version:version, type:type},
+				dataType: 'json',
+				success:function(data){
+					for(var i=0; i<data.length; i++){
+						if(data[i] != null){
+							newTdRow += "<td>"+ data[i].value +"</td>";
+							rowArray.push(data[i].value);
+							if(ifFirstValue){
+								lastValue = data[i].value;
+								ifFirstValue = false;
+							}else if(lastValue != data[i].value){
+								ifSame = false;
+							}
+						}else{
+							newTdRow += "<td></td>";
+							rowArray.push(null);
+						}
+					}
+				},
+				error:function (XMLHttpRequest, textStatus, errorThrown) 
+				{ 
+					for(var i=0; i<leftNodes.length; i++){
+						newTdRow += "<td></td>";
+						rowArray.push(null);
+					}
+				} 
+			});
 			rowArray.reverse();
 			dataArray.push(rowArray);
 			if(ifSame){

@@ -81,7 +81,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="cn.edu.buaa.amp.MetricInterceptor" level="DEBUG" additivity="false">
+	<logger name="cn.edu.buaa.amp.MetricInterceptor" level="ERROR" additivity="false">
 		<appender-ref ref="RUNNINGFILE" />
 	</logger>
 	

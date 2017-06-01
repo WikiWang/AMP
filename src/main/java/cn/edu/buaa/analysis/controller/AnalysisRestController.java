@@ -59,6 +59,9 @@ public class AnalysisRestController {
 			@RequestParam(value="version") String version){
 
 		String fileData_url;
+		if(version != null && !version.equals("")){
+			version = version.substring(0, version.length()-1);
+		}
 		if(parentId.equals("")){
 			fileData_url = env.getProperty(type+"_fileDataValue_url") + "?" + type + "Id=" + id + "&version=" + version + "&pid=";
 		}else{
