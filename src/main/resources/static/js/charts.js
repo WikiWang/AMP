@@ -173,6 +173,63 @@ var gaugeChart = {
 	    ]
 };
 
+var scatterChart = {
+	    title : {
+//	        text: '散点图',
+//			orient:'vertical',
+	    },
+	    tooltip : {
+	        trigger: 'axis',
+	        showDelay : 0,
+	        formatter : function (params) {
+	        	return params.seriesName + ' :<br/>'
+	        		+ "(" + params.value[0] + ', ' 
+	                + params.value[1] + ")" ;
+	        },  
+	        axisPointer:{
+	            show: true,
+	            type : 'cross',
+	            lineStyle: {
+	                type : 'dashed',
+	                width : 1
+	            }
+	        }
+	    },
+	    legend: {
+//	        data:mainArray,
+	    },
+	    toolbox: {
+	        show : false,
+	        feature : {
+	            mark : {show: true},
+	            dataZoom : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+	    xAxis : [
+	        {
+	            type : 'value',
+	            scale:true,
+	            name:paramArray[0],
+//	            axisLabel : {
+//	                formatter: '{value}'
+//	            }
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value',
+	            scale:true,
+	            name:paramArray[1],
+//	            axisLabel : {
+//	                formatter: '{value}'
+//	            }
+	        }
+	    ],
+	};
+
 var chartType = 'line';
 var RealTimeType = "timeRange";
 var $active = $("#lineChart");
@@ -240,6 +297,20 @@ function showGauge() {
 
 }
 
+function showScatterChart() {
+	$("#timeRange").show();
+	$("#timeMetric").show();
+	$("#minp").hide();
+	$("#maxp").hide();
+	RealTimeType = "timeRange";
+	if(chartType != 'scatterChart'){
+		chartType='scatterChart';
+		clearInterval(interval);
+		myChart.clear();
+	}
+}
+
+
 function refresh() {
 
 	len = $("#dom_1 span").size();//获取span标签的个数
@@ -256,6 +327,17 @@ function refresh() {
 			alert("仪表盘只能拖入一个参数！");
 			return;
 		}
+		if(chartType == 'scatterChart'){
+			if(len < 2 ){
+				alert("散点图至少两个参数！");
+				return;
+			}
+			if(len > 4){
+				alert("散点图最多四个参数！");
+				return;
+			}
+		}
+		
 		myChart.showLoading({
 			text : '数据获取中',
 			effect: 'whirling'
