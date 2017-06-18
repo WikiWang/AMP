@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AnalysisController {
 
 	@RequestMapping(value="/analysis", method = RequestMethod.GET)
-	public String index(Model model){
+	public String analysis(Model model){
 		return "analysis";
+	}
+	@RequestMapping(value="/2DAnalysis", method = RequestMethod.GET)
+	public String DAnalysis(Model model){
+		return "2DAnalysis";
 	}
 }

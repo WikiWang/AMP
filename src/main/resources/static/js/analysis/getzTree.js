@@ -397,5 +397,4 @@ $(document).ready(function(){
 		.bind("input", searchNode);
 	}
 
-//	$.fn.zTree.init($("#param_list_tree"), setting2);
 });
