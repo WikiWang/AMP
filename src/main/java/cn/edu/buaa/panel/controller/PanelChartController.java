@@ -94,13 +94,14 @@ public class PanelChartController {
 	
 	
 	@RequestMapping(value="/Panel/addPanel", method = RequestMethod.GET)
-	public String addPanel(@RequestParam(value="panelName") String panelName){
+	public String addPanel(@RequestParam(value="panelName") String panelName,
+			@RequestParam(value="userId") String userId){
 		
 		String id = GenerateSequenceUtil.generateSequenceNo();
 		Panel panel = new Panel();
 		panel.setId(id);
 		panel.setName(panelName);
-		panel.setUserId("admin");
+		panel.setUserId(userId);
 		panel.setCharts(new ArrayList<String>());
 		panelRepository.save(panel);
 		
@@ -111,6 +112,19 @@ public class PanelChartController {
 	public String getPanels(@RequestParam(value="userId") String userId){
 		
 		List<Panel> panels = panelRepository.findByUserId(userId);
+//		if(panels==null || panels.isEmpty()){
+//			if(panels==null){
+//				panels = new ArrayList<Panel>();
+//			}
+//			Panel panel = new Panel();
+//			String id = GenerateSequenceUtil.generateSequenceNo();
+//			panel.setId(id);
+//			panel.setName("我的仪表盘");
+//			panel.setUserId("userId");
+//			panel.setCharts(new ArrayList<String>());
+//			panelRepository.save(panel);
+//			panels.add(panel);
+//		}
 		Gson gson = new Gson();  
 	    String result = gson.toJson(panels);
 		return result;

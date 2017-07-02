@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.edu.buaa.monitoring.bean.MainModel;
 import cn.edu.buaa.panel.bean.Panel;
@@ -38,9 +39,9 @@ public class ModelController {
 	private PanelRepository panelRepository;
 	
 	@RequestMapping(value="/monitor", method = RequestMethod.GET)
-	public String index(Model model){
+	public String index(Model model, @RequestParam(required = true) String user){
 		List<MainModel> allMainModels = mainModelListService.getAllMainModels();
-		List<Panel> panels = panelRepository.findAll();
+		List<Panel> panels = panelRepository.findByUserId(user);
 		model.addAttribute("allMainModels", allMainModels);
 		model.addAttribute("panels", panels);
 		return "monitor";

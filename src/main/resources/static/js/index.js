@@ -1,7 +1,9 @@
 var userId = "admin";
-var panelId = "001";
+var panelId = null;
+
 $(function() {
 
+	userId = getUrlParam("user");
 	$.ajax({
 		type: 'GET',
 		url: "/Panel/getPanels",
@@ -9,6 +11,9 @@ $(function() {
 		data: {userId:userId},
 		dataType: 'json',
 		success:function(data){
+			if(userId != null && data.length == 0){
+				alert("当前用户还未建立仪表盘，添加图表前请先新建仪表盘！");
+			}
 			for(var i=0; i<data.length; i++){
 //				var ul=$('panels');    
 //		        var li= document.createElement("li");    
@@ -66,8 +71,8 @@ $("#panels").on("click","li", function() {
 });
 
 function deletePanelModal(){
-	if(panelId == "001"){
-		alert("默认仪表盘无法删除！");
+	if(panelId == null){
+		alert("请先选择要删除的仪表盘");
 	}else{
 		$('#deletePanelModal').modal('show');
 	}
@@ -83,6 +88,7 @@ function deletePanel() {
 		success:function(data){
 			if(data.status == "success!"){
 				$('#deletePanelSure').text("删除成功！");
+				panelId = null;
 				window.location.reload(true);
 			}
 		},
@@ -92,3 +98,66 @@ function deletePanel() {
 	});
 	$('#deleteChartModal').modal('hide');
 }
+
+/**
+ * add chart
+ */
+function addChartModal() {
+	if(panelId == null){
+		alert("请先选择仪表盘");
+	}else{
+		$('#addChartModal').modal('show');
+	}
+}
+
+function addChart() {
+	
+	var id = $("#chatList").val();
+	$.ajax({
+		type: 'GET',
+		url: "/Panel/addChart",
+		async: false,
+		data: {id:id, panelId:panelId},
+		dataType: 'json',
+		success:function(data){
+		},
+		error:function(XMLHttpRequest, textStatus, errorThrown){
+			alert("添加失败！");
+		}
+	});
+	$('#addChartModal').modal('hide');
+	$("#chart_panel").empty();
+	initPanel(panelId,0);
+	
+}
+
+/**
+ * add panel
+ */
+function addPanelModal() {
+	$('#addPanel').modal('show');
+}
+
+function addPanel() {
+	var panelName = $("#panelName").val();
+	if(panelName == ""){
+		alert("请输入仪表盘名称！");
+	}else{
+		$.ajax({
+			type: 'GET',
+			url: "/Panel/addPanel",
+			async: false,
+			data: {panelName:panelName, userId:userId},
+			dataType: 'json',
+			success:function(data){
+				alert("添加仪表盘成功!");
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				alert("添加仪表盘失败！");
+			}
+		});
+		$('#addPanel').modal('hide');
+		window.location.reload(true);
+	}
+}
+

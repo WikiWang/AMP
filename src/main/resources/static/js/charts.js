@@ -4,7 +4,7 @@ $("#chart").css("height", 420);
 //};
 
 var myChart = echarts.init(document.getElementById('chart'));  
-
+var userId;
 window.onresize = myChart.resize;      
 
 var lineChart = {
@@ -479,7 +479,7 @@ function saveToPanel() {
 			type: 'GET',
 			url: "/Monitoring/saveLineChart",
 			async: false,
-			data: {ids:idsString, name:name, timeType:timeType, timeRange:timeRange, panelId:panelId},
+			data: {ids:idsString, name:name, timeType:timeType, timeRange:timeRange, panelId:panelId, userId:userId},
 			dataType: 'json',
 			success:function(data){
 				$('#addToPanelModal').modal('hide');
@@ -494,7 +494,7 @@ function saveToPanel() {
 			type: 'GET',
 			url: "/Monitoring/saveGaugeChart",
 			async: false,
-			data: {ids:idsString, name:name, chartType:chartType, min:min, max:max, panelId:panelId},
+			data: {ids:idsString, name:name, chartType:chartType, min:min, max:max, panelId:panelId, userId:userId},
 			dataType: 'json',
 			success:function(data){
 				$('#addToPanelModal').modal('hide');
@@ -509,7 +509,7 @@ function saveToPanel() {
 			type: 'GET',
 			url: "/Monitoring/saveChart",
 			async: false,
-			data: {ids:idsString, name:name, chartType:chartType, panelId:panelId},
+			data: {ids:idsString, name:name, chartType:chartType, panelId:panelId, userId:userId},
 			dataType: 'json',
 			success:function(data){
 				$('#addToPanelModal').modal('hide');
@@ -525,5 +525,5 @@ function saveToPanel() {
 $(".main-menu li").click(function () {
 	$("li[class='active']").removeAttr("class");
 	$(this).addClass("active");
-
+	userId = getUrlParam('user');
 });
