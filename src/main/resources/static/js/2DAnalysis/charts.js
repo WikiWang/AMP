@@ -19,7 +19,7 @@ var min = 0;
 var max = 100;
 var interval = null;
 var mainId;
-var version;
+var versions;
 var type;
 var dataArray;//value数组
 var paramArray;//参数数组
@@ -135,7 +135,8 @@ function initTransac(){
 			$(this).children(".categoryDiv").each(function(){
 				$(this).children(".domBtn").each(function(){
 					var domid=$(this).attr("domid");
-				    var name=$(this).attr("name");
+				    var name=$(this).text();
+				    var version = $(this).attr("name");
 //				    alert(domid);
 //				    alert(name);
 				    if(paramNumber == 0){
@@ -146,15 +147,15 @@ function initTransac(){
 				    paramNumber++;	
 				    $.ajax({
 						type: 'GET',
-						url: "/Analysis/DataValue",
+						url: "/2DAnalysis/DataValue",
 						async: false,
 						data: {id:mainId, parentId:domid, version:version, type:type},
 						dataType: 'json',
 						success:function(data){
-							if(data[0] != null && paramNumber==1){
-								x = data[0].value;
-							} else if(data[0] != null && paramNumber==2){
-								y = data[0].value;
+							if(paramNumber==1){
+								x = data.value;
+							} else if(paramNumber==2){
+								y = data.value;
 							}
 						},
 						error:function (XMLHttpRequest, textStatus, errorThrown) 
@@ -191,7 +192,7 @@ $(".main-menu li").click(function () {
 
 $(document).ready(function(){
 	mainId = getUrlParam('id');
-	version = getUrlParam('version') + ",";
+	versions = getUrlParam('version') + ",";
 	type = getUrlParam('type');
 	$("#chart").css('display','block'); 
 });

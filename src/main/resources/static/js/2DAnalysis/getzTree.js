@@ -31,12 +31,12 @@ var MoveTest = {
 			if (moveType == null && targetId.indexOf("dom_1") >= 0) {
 				
 				$("#" + targetId + "").empty();
-				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id +"' name='" + treeNodes[0].name + "'>" + treeNodes[0].name + "</span>");
+				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id +"' name='" + treeNodes[0].version + "'>" + treeNodes[0].name + "</span>");
 			
 			} else if(moveType == null && targetId.indexOf("dom_2") >= 0){
 
 				$("#" + targetId + "").empty();
-				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id + "'>" + treeNodes[0].name + "</span>");
+				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id +"' name='" + treeNodes[0].version + "'>" + treeNodes[0].name + "</span>");
 
 			} else {
 				alert(MoveTest.errorMsg);
@@ -150,7 +150,7 @@ var setting_paramTree = {
 			enable: false
 		},
 		async: {
-			autoParam:["id=parentId","name", "level=lv"],  
+			autoParam:["id=parentId","name", "version", "level=lv"],  
 			enable: true,
 			url:getParamUrl,
 			otherParam:{"otherParam":"zTreeAsyncTest"},
@@ -171,7 +171,7 @@ var setting_paramTree = {
 };
 
 function getParamUrl(){
-	return "/Analysis/TreeNodeParam?type=" + type + "&id=" + id ;
+	return "/2DAnalysis/TreeNodeParam?type=" + type + "&id=" + id +"&versions=" + versions;
 }
 
 function filter2(treeId, parentNode, childNodes) {
@@ -343,12 +343,14 @@ function getFontCss(treeId, treeNode) {
 
 
 $(document).ready(function(){
-	
 	type = getUrlParam('type');
 	var leftParentNodes;
 	id= getUrlParam('id');
+	versions = getUrlParam('version');
 	if(id == null){
 		alert("id不能为空！");
+	}else if(versions == null){
+		alert("version不能为空！");
 	}else{
 		$.fn.zTree.init($("#param_list_tree"), setting_paramTree);
 		param_tree = $.fn.zTree.getZTreeObj("param_list_tree");
