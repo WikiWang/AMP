@@ -379,14 +379,16 @@ function getFontCss(treeId, treeNode) {
 
 $(document).ready(function(){
 	
-	id=parseInt($("#data_selector").val()); 
+//	id=parseInt($("#data_selector").val()); 
 
 	type = getUrlParam('type');
 	var leftParentNodes;
-//	id= getUrlParam('id');
+	id= getUrlParam('id');
 	if(id == null){
-		alert("id不能为空！");
+//		alert("id不能为空！");
+		id = parseInt($("#data_selector").val());
 	}else{
+		$(".selector").val(id);
 		$.fn.zTree.init($("#param_list_tree"), setting_paramTree);
 		param_tree = $.fn.zTree.getZTreeObj("param_list_tree");
 		key = $("#key");

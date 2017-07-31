@@ -421,8 +421,8 @@ function initTransac(){
 	/*设置表头*/
 	for(var i=0; i<leftNodes.length; i++){
 		if(!leftNodes[i].isParent){
-			newRow += "<td>"+ leftNodes[i].mmName +"</td>";
-			mainArray.push(leftNodes[i].mmName);
+			newRow += "<td>"+ leftNodes[i].name +"</td>";
+			mainArray.push(leftNodes[i].name);
 		}
 	}
 	mainArray.reverse();

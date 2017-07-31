@@ -36,27 +36,26 @@ function showLineChart() {
 			legend: {
 				data:paramArray,
 			},
-			toolbox: {
-				show : false,
-				feature : {
-					mark : {show: true},
-					dataView : {show: true, readOnly: false},
-//					magicType : {show: true, type: ['line', 'bar']},
-					restore : {show: true},
-					saveAsImage : {show: true}
-				}
-			},
+//			toolbox: {
+//				show : false,
+//				feature : {
+//					mark : {show: true},
+//					dataView : {show: true, readOnly: false},
+////					magicType : {show: true, type: ['line', 'bar']},
+//					restore : {show: true},
+//					saveAsImage : {show: true}
+//				}
+//			},
 			calculable : true,
 			xAxis : [
 			         {
-			        	 type: 'value',
-			        	 boundaryGap : true,
+			        	 type: 'value'
 			         }
 			         ],
 			yAxis : [
 			         {
 			        	 type : 'value',
-			        	 scale: true,
+//			        	 scale: true,
 			        	 axisLabel : {
 			        		 formatter: '{value}'
 			        			 }
@@ -140,7 +139,7 @@ function initTransac(){
 //				    alert(domid);
 //				    alert(name);
 				    if(paramNumber == 0){
-				    	legendName += name;
+				    	legendName = "version_"+version+":" + name;
 				    }else{
 				    	legendName = legendName + "-" +name;
 				    }
