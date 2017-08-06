@@ -134,12 +134,13 @@ function initTransac(){
 			$(this).children(".categoryDiv").each(function(){
 				$(this).children(".domBtn").each(function(){
 					var domid=$(this).attr("domid");
+					var mName=$(this).attr("mName");
 				    var name=$(this).text();
 				    var version = $(this).attr("name");
 //				    alert(domid);
 //				    alert(name);
 				    if(paramNumber == 0){
-				    	legendName = "version_"+version+":" + name;
+				    	legendName = mName + ":" + name;
 				    }else{
 				    	legendName = legendName + "-" +name;
 				    }
@@ -151,10 +152,12 @@ function initTransac(){
 						data: {id:mainId, parentId:domid, version:version, type:type},
 						dataType: 'json',
 						success:function(data){
-							if(paramNumber==1){
-								x = data.value;
-							} else if(paramNumber==2){
-								y = data.value;
+							if(data != null){
+								if(paramNumber==1){
+									x = data.value;
+								} else if(paramNumber==2){
+									y = data.value;
+								}
 							}
 						},
 						error:function (XMLHttpRequest, textStatus, errorThrown) 

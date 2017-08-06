@@ -454,7 +454,7 @@ function initTransac(){
 				data: {id:mainId, parentId:middleNodes[k].id, version:version, type:type},
 				dataType: 'json',
 				success:function(data){
-					for(var i=0; i<data.length; i++){
+					for(var i=data.length-1; i>=0; i--){
 						if(data[i] != null){
 							newTdRow += "<td>"+ data[i].value +"</td>";
 							rowArray.push(data[i].value);

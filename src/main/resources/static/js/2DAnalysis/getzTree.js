@@ -28,15 +28,19 @@ var MoveTest = {
 		},
 		dropTree2Dom: function(e, treeId, treeNodes, targetNode, moveType) {
 			var targetId=e.target.id;
+			var parentNode = treeNodes[0];
+			while( parentNode.getParentNode() != null){
+				parentNode = parentNode.getParentNode();
+			}
 			if (moveType == null && targetId.indexOf("dom_1") >= 0) {
 				
 				$("#" + targetId + "").empty();
-				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id +"' name='" + treeNodes[0].version + "'>" + treeNodes[0].name + "</span>");
+				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id + "' mName='" + parentNode.name + "' name='" + treeNodes[0].version + "'>" + treeNodes[0].name + "</span>");
 			
 			} else if(moveType == null && targetId.indexOf("dom_2") >= 0){
 
 				$("#" + targetId + "").empty();
-				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id +"' name='" + treeNodes[0].version + "'>" + treeNodes[0].name + "</span>");
+				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id + "' mName='" + parentNode.name + "' name='" + treeNodes[0].version + "'>" + treeNodes[0].name + "</span>");
 
 			} else {
 				alert(MoveTest.errorMsg);
