@@ -59,10 +59,48 @@ public class AnalysisRestController {
 			@RequestParam(value="version") String version){
 
 		String fileData_url;
+		if(version != null && !version.equals("")){
+			version = version.substring(0, version.length()-1);
+		}
 		if(parentId.equals("")){
 			fileData_url = env.getProperty(type+"_fileDataValue_url") + "?" + type + "Id=" + id + "&version=" + version + "&pid=";
 		}else{
 			fileData_url = env.getProperty(type+"_fileDataValue_url") + "?" + type + "Id=" + id + "&version=" + version + "&pid=" + parentId;
+		}
+		return dataValueService.queryDataValue(fileData_url);
+	}
+	
+	@RequestMapping(value="/2DAnalysis/TreeNodeParam")
+	public String query2dTreeNodeParam(@RequestParam(value="id") String id, 
+			@RequestParam(value="type") String type, 
+			@RequestParam(value="parentId", defaultValue="") String parentId,
+			@RequestParam(value="versions") String versions,
+			@RequestParam(value="version", defaultValue="") String version){
+
+		String fileData_url;
+		if(parentId.equals("")){
+			fileData_url = env.getProperty(type+"_DataCompare_fileData_url") + "?" + type + "Id=" + id + "&pid=";
+			return treeNodeParamService.queryTreeNodeRootParam(fileData_url, versions);
+		}else{
+			fileData_url = env.getProperty(type+"_DataCompare_fileData_url") + "?" + type + "Id=" + id + "&pid=" + parentId + "&version=" + version;
+		}
+		return treeNodeParamService.queryTreeNodeParam(fileData_url);
+	}
+	
+	@RequestMapping(value="/2DAnalysis/DataValue", method = RequestMethod.GET)
+	public String query2DDataValue(@RequestParam(value="id") String id, 
+			@RequestParam(value="type") String type, 
+			@RequestParam(value="parentId", defaultValue="") String parentId,
+			@RequestParam(value="version") String version){
+
+		String fileData_url;
+//		if(version != null && !version.equals("")){
+//			version = version.substring(0, version.length()-1);
+//		}
+		if(parentId.equals("")){
+			fileData_url = env.getProperty(type+"_DataCompare_fileDataValue_url") + "?" + type + "Id=" + id + "&version=" + version + "&pid=";
+		}else{
+			fileData_url = env.getProperty(type+"_DataCompare_fileDataValue_url") + "?" + type + "Id=" + id + "&version=" + version + "&pid=" + parentId;
 		}
 		return dataValueService.queryDataValue(fileData_url);
 	}

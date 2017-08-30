@@ -10,7 +10,7 @@ var leftCurStatus = "left_init", leftCurAsyncCount = 0, leftAsyncForAll = false,
 var setting_leftTree = {
 		data: {
 			key: {
-				name: "mmName"
+				name: "name"
 			},
 			simpleData: {
 				enable: true,
@@ -43,7 +43,10 @@ function getUrl(){
 function filter1(treeId, parentNode, childNodes) {
 	if (!childNodes) return null;
 	for (var i=0, l=childNodes.length; i<l; i++) {
-		childNodes[i].name = childNodes[i].mmName.replace(/\.n/g, '.');
+		if(type == "mainModel"){
+			
+		}
+		childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
 		if(versions != null){
 			for(var j=0; j<versions.length; j++){
 				if(childNodes[i].version == versions[j]){
@@ -379,7 +382,7 @@ $(document).ready(function(){
 	}else{
 		var leftParentNodes = [
 		             { 
-		            	 mmName:"全部", 
+		            	 name:"全部", 
 		            	 open:true,
 		            	 isParent:true,
 		            	 id:0
@@ -397,5 +400,4 @@ $(document).ready(function(){
 		.bind("input", searchNode);
 	}
 
-//	$.fn.zTree.init($("#param_list_tree"), setting2);
 });

@@ -25,47 +25,23 @@ var MoveTest = {
 			return targetNode!=null && targetNode.isParent && targetNode.tId == treeNodes[0].parentTId;
 		},
 		dragMove: function(e, treeId, treeNodes) {
-//			var p = null, xId = 'dom_1', yId = 'dom_2';
-//			if (e.target.id == pId) {
-//				p = $(e.target);
-//			} else {
-//				p = $(e.target).parent('#' + pId);
-//				if (!p.get(0)) {
-//					p = null;
-//				}
-//			}
-//
-//			$('.domBtnDiv .active').removeClass('active');
-//			if (p) {
-//				p.addClass('active');
-//			}
 		},
 		dropTree2Dom: function(e, treeId, treeNodes, targetNode, moveType) {
-//			var domId = "dom_" + treeNodes[0].getParentNode().id;
-			if (moveType == null && ("domX" == e.target.id || "dom_1" == e.target.id || $(e.target).parents("#dom_1").length > 0)) {
-				var zTree = $.fn.zTree.getZTreeObj("param_list_tree");
-//				zTree.removeNode(treeNodes[0]);
+			var targetId=e.target.id;
+			var parentNode = treeNodes[0];
+			while( parentNode.getParentNode() != null){
+				parentNode = parentNode.getParentNode();
+			}
+			if (moveType == null && targetId.indexOf("dom_1") >= 0) {
+				
+				$("#" + targetId + "").empty();
+				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id + "' mName='" + parentNode.name + "' name='" + treeNodes[0].version + "'>" + treeNodes[0].name + "</span>");
+			
+			} else if(moveType == null && targetId.indexOf("dom_2") >= 0){
 
-				var newDom = $("span[domId=" + treeNodes[0].id + "]");
-				if (newDom.length > 0) {
-//					newDom.removeClass("domBtn_Disabled");
-//					newDom.addClass("domBtn");
-				} else {
-					$("#dom_1").append("<span class='domBtn' domId='" + treeNodes[0].id +"' name='" + treeNodes[0].name + "'>" + treeNodes[0].name + "</span>");
-				}
-//				MoveTest.updateType();
-			} else if(moveType == null && ("domY" == e.target.id || "dom_2" == e.target.id || $(e.target).parents("#dom_2").length > 0)){
-				var zTree = $.fn.zTree.getZTreeObj("param_list_tree");
-//				zTree.removeNode(treeNodes[0]);
+				$("#" + targetId + "").empty();
+				$("#" + targetId + "").append("<span class='domBtn' domId='" + treeNodes[0].id + "' mName='" + parentNode.name + "' name='" + treeNodes[0].version + "'>" + treeNodes[0].name + "</span>");
 
-				var newDom = $("span[domId=" + treeNodes[0].id + "]");
-				if (newDom.length > 0) {
-//					newDom.removeClass("domBtn_Disabled");
-//					newDom.addClass("domBtn");
-				} else {
-					$("#dom_2").append("<span class='domBtn' domId='" + treeNodes[0].id + "'>" + treeNodes[0].name + "</span>");
-				}
-//				MoveTest.updateType();
 			} else {
 				alert(MoveTest.errorMsg);
 			}
@@ -122,8 +98,8 @@ var MoveTest = {
 			var target = MoveTest.curTarget, tmpTarget = MoveTest.curTmpTarget;
 			if (tmpTarget) tmpTarget.remove();
 
-			if ($(e.target).attr("id") == "domX" || $(e.target).attr("id") == "dom_1" || $(e.target).parent().attr("id") == "dom_1"
-				|| $(e.target).attr("id") == "domY" || $(e.target).attr("id") == "dom_2" || $(e.target).parent().attr("id") == "dom_2") {
+			var targetId=e.target.id;
+			if (targetId.indexOf("dom_1") >= 0 || targetId.indexOf("dom_2") >= 0) {
 				if (target) {
 					target.removeClass("domBtn_Disabled");
 					target.addClass("domBtn");
@@ -145,7 +121,6 @@ var MoveTest = {
  * param tree setting start
  */
 var paramCurStatus = "param_init", paramCurAsyncCount = 0, paramAsyncForAll = false, paramGoAsync = false;
-var ifFirstCall=true;
 var setting_paramTree = {
 		edit: {
 			enable: true,
@@ -179,7 +154,7 @@ var setting_paramTree = {
 			enable: false
 		},
 		async: {
-			autoParam:["id=parentId","name", "level=lv"],  
+			autoParam:["id=parentId","name", "version", "level=lv"],  
 			enable: true,
 			url:getParamUrl,
 			otherParam:{"otherParam":"zTreeAsyncTest"},
@@ -200,13 +175,7 @@ var setting_paramTree = {
 };
 
 function getParamUrl(){
-	if(ifFirstCall){
-		ifFirstCall = false;
-		return "/Monitoring/TreeNodeParam?type=" + type + "&id=" + id + "&parentId=";
-	}else{
-		return "/Monitoring/TreeNodeParam?type=" + type + "&id=" + id;
-	}
-	
+	return "/2DAnalysis/TreeNodeParam?type=" + type + "&id=" + id +"&versions=" + versions;
 }
 
 function filter2(treeId, parentNode, childNodes) {
@@ -378,17 +347,15 @@ function getFontCss(treeId, treeNode) {
 
 
 $(document).ready(function(){
-	
-//	id=parseInt($("#data_selector").val()); 
-
 	type = getUrlParam('type');
 	var leftParentNodes;
 	id= getUrlParam('id');
+	versions = getUrlParam('version');
 	if(id == null){
-//		alert("id不能为空！");
-		id = parseInt($("#data_selector").val());
+		alert("id不能为空！");
+	}else if(versions == null){
+		alert("version不能为空！");
 	}else{
-		$(".selector").val(id);
 		$.fn.zTree.init($("#param_list_tree"), setting_paramTree);
 		param_tree = $.fn.zTree.getZTreeObj("param_list_tree");
 		key = $("#key");
@@ -398,16 +365,4 @@ $(document).ready(function(){
 		.bind("input", searchNode);
 	}
 	MoveTest.bindDom();
-//	$("#datepicker" ).datepicker();
-//	$("#datepicker" ).datepicker('setDate', new Date());
-});
-
-$('#data_selector').change(function(){ 
-	id=parseInt($("#data_selector").val()); 
-	ifFirstCall = true;
-	paramCurStatus = "param_init";
-	paramCurAsyncCount = 0;
-	paramAsyncForAll = false;
-	paramGoAsync = false;
-	$.fn.zTree.init($("#param_list_tree"), setting_paramTree);
 });

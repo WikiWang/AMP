@@ -7,6 +7,8 @@
  */
 package cn.edu.buaa.panel.repo;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import cn.edu.buaa.panel.bean.Chart;
@@ -19,4 +21,5 @@ import cn.edu.buaa.panel.bean.Chart;
  */
 public interface ChartRepository extends MongoRepository<Chart, String>{
 
+	List<Chart> findByUserId(String userId);
 }

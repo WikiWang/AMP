@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.edu.buaa.panel.bean.Chart;
 import cn.edu.buaa.panel.bean.PanelChart;
@@ -37,8 +38,9 @@ public class PanelController {
 	private PanelChartRepository panelChartRepository;
 	
 	@RequestMapping(value="/panel", method = RequestMethod.GET)
-	public String panel(Model model){
-		List<Chart> charts = chartRepository.findAll();
+	public String panel(Model model, @RequestParam(required = true) String user){
+		
+		List<Chart> charts = chartRepository.findByUserId(user);
 		model.addAttribute("charts", charts);
 		return "panel";
 	}

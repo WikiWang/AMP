@@ -65,12 +65,13 @@ public class RestfulController {
 			@RequestParam(value="name") String name, 
 			@RequestParam(value="timeType") String timeType, 
 			@RequestParam(value="timeRange") String timeRange,
-			@RequestParam(value="panelId") String panelId){
+			@RequestParam(value="panelId") String panelId,
+			@RequestParam(value="userId") String userId){
 
 		String id = GenerateSequenceUtil.generateSequenceNo();
 		String url = chart_url_pre + "linechart?name=" + name + "&ids=" + ids + "&timeType=" + timeType + "&timeRange=" + timeRange;
 		
-		Chart lineChart = new Chart(id, name, url);
+		Chart lineChart = new Chart(id, name, url, userId);
 		PanelChart panelLineChart = new PanelChart(id, panelId, url, 0, 0, 0, 0);
 		Panel panel = panelRepository.findById(panelId);
 		panel.getCharts().add(id);
@@ -85,12 +86,13 @@ public class RestfulController {
 	public String saveChart(@RequestParam(value="ids") String ids,
 			@RequestParam(value="chartType") String chartType,
 			@RequestParam(value="name") String name, 
-			@RequestParam(value="panelId") String panelId){
+			@RequestParam(value="panelId") String panelId,
+			@RequestParam(value="userId") String userId){
 
 		String id = GenerateSequenceUtil.generateSequenceNo();
 		String url = chart_url_pre + chartType + "chart?name=" + name + "&ids=" + ids;
 		
-		Chart lineChart = new Chart(id, name, url);
+		Chart lineChart = new Chart(id, name, url, userId);
 		PanelChart panelLineChart = new PanelChart(id, panelId, url, 0, 0, 0, 0);
 		Panel panel = panelRepository.findById(panelId);
 		panel.getCharts().add(id);
@@ -106,12 +108,13 @@ public class RestfulController {
 			@RequestParam(value="name") String name, 
 			@RequestParam(value="min") String min, 
 			@RequestParam(value="max") String max,
-			@RequestParam(value="panelId") String panelId){
+			@RequestParam(value="panelId") String panelId,
+			@RequestParam(value="userId") String userId){
 
 		String id = GenerateSequenceUtil.generateSequenceNo();
 		String url = chart_url_pre + "gaugechart?name=" + name + "&ids=" + ids + "&min=" + min + "&max=" + max;
 		
-		Chart lineChart = new Chart(id, name, url);
+		Chart lineChart = new Chart(id, name, url, userId);
 		PanelChart panelLineChart = new PanelChart(id, panelId, url, 0, 0, 0, 0);
 		Panel panel = panelRepository.findById(panelId);
 		panel.getCharts().add(id);

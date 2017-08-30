@@ -21,12 +21,14 @@ public class Chart {
 	private String id;
 	private String name;
 	private String url;
+	private String userId;
 	
 	
-	public Chart(String id, String name, String url) {
+	public Chart(String id, String name, String url, String userId) {
 		this.id = id;
 		this.name = name;
 		this.url = url;
+		this.userId = userId;
 	}
 	
 	public String getId() {
@@ -46,6 +48,14 @@ public class Chart {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }

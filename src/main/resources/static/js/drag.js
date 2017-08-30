@@ -29,7 +29,7 @@ $(function() {
 			});
 		}
 	});
-	initPanel("001", maxHeight);
+//	initPanel("001", maxHeight);
 });
 
 function initPanel(panelId, maxHeight){
