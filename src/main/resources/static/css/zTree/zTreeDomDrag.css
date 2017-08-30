@@ -22,12 +22,12 @@
 
 .domBtnDivX {
 	display:inline;
-	padding:2px;
+	padding:7px;
 	float:left;
 	border:1px gray dotted;
 	background-color:powderblue;
 	width: 37%;
-	height: 27px;
+	height: 37px;
 	overflow: auto;
 }
 
