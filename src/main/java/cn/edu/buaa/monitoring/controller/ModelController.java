@@ -39,8 +39,8 @@ public class ModelController {
 	private PanelRepository panelRepository;
 	
 	@RequestMapping(value="/monitor", method = RequestMethod.GET)
-	public String index(Model model, @RequestParam(required = true) String user){
-		List<MainModel> allMainModels = mainModelListService.getAllMainModels();
+	public String index(Model model, @RequestParam(required = true) String user, @RequestParam(required = true) String password){
+		List<MainModel> allMainModels = mainModelListService.getAllMainModels(user, password);
 		List<Panel> panels = panelRepository.findByUserId(user);
 		model.addAttribute("allMainModels", allMainModels);
 		model.addAttribute("panels", panels);

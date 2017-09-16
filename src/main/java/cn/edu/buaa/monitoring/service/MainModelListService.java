@@ -7,7 +7,9 @@
  */
 package cn.edu.buaa.monitoring.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +37,12 @@ public class MainModelListService {
 	@Value("${queryAllMainModel_url}")
 	private String queryAllMainModel_url;
 	
-	public List<MainModel> getAllMainModels(){
+	public List<MainModel> getAllMainModels(String user, String password){
 		Gson gson = new Gson();
 		RestTemplate restTemplate = new RestTemplate();
+		String queryAllMainModelByName = queryAllMainModel_url + "?userName=" + user + "&password=" +password;
 		logger.info(queryAllMainModel_url);
-		String allMainModels = restTemplate.getForObject(queryAllMainModel_url, String.class);
+		String allMainModels = restTemplate.getForObject(queryAllMainModelByName, String.class);
 		
 		List<MainModel> list = gson.fromJson(allMainModels,  
                 new TypeToken<List<MainModel>>() {  
