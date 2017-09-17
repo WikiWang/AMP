@@ -1,8 +1,8 @@
-$("#chart").css("height", $(window).height()-40);
+$("#chart").css("height", $(window).height()-80);
 $("#chart").css("width", $(window).width());
 
 $(window).resize(function() {
-	$("#chart").css("height", $(window).height()-40);
+	$("#chart").css("height", $(window).height()-80);
 	$("#chart").css("width", $(window).width());
 	myChart.resize();
 });
@@ -28,6 +28,15 @@ $(document).ready(function(){
         effect: 'whirling'
     });
 	interval = setInterval(setSeriexData, 5000);
+	$("#rang1-1").val(0);
+	$("#rang1-2").val(getUrlParam('rang12'));
+	$("#rang2-1").val(getUrlParam('rang12'));
+	$("#rang2-2").val(getUrlParam('rang23'));
+	$("#rang3-1").val(getUrlParam('rang23'));
+	$("#rang3-2").val(100);
+	$("#color1").css('background-color', getUrlParam('rgb1'));
+	$("#color2").css('background-color', getUrlParam('rgb2'));
+	$("#color3").css('background-color', getUrlParam('rgb3'));
 });
 
 window.onresize = myChart.resize;      
@@ -122,7 +131,7 @@ function setSeriexData(){
 			dataType: 'json',
 			success:function(data){
 				item = {
-					name:data.name,
+					name:name,
 					value:data.value
 				};
 			}
@@ -131,8 +140,17 @@ function setSeriexData(){
 	gaugeChart.series[0].data[0] = item;
 	gaugeChart.series[0].min = min;
 	gaugeChart.series[0].max = max;
+	var rang1 = parseFloat($("#rang1-2").val())/100;
+	var rang2 = parseFloat($("#rang2-2").val())/100;
+	var rang3 = parseFloat($("#rang3-2").val())/100;
+	var rgb1 = $("#color1").css('background-color'); 
+	var rgb2 = $("#color2").css('background-color'); 
+	var rgb3 = $("#color3").css('background-color'); 
+	var colorArray = [[rang1, rgb1],[rang2, rgb2],[rang3, rgb3]];
+	gaugeChart.series[0].axisLine.lineStyle.color = colorArray;
 //	gaugeChart.series[0].data[0].value = dataValue[0];
 	myChart.setOption(gaugeChart,true);
 	myChart.hideLoading();
+	$("#colorpick").show();
 }
 

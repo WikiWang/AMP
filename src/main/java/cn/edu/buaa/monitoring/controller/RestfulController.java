@@ -108,11 +108,18 @@ public class RestfulController {
 			@RequestParam(value="name") String name, 
 			@RequestParam(value="min") String min, 
 			@RequestParam(value="max") String max,
+			@RequestParam(value="rang12") String rang12,
+			@RequestParam(value="rang23") String rang23,
+			@RequestParam(value="rgb1") String rgb1,
+			@RequestParam(value="rgb2") String rgb2,
+			@RequestParam(value="rgb3") String rgb3,
 			@RequestParam(value="panelId") String panelId,
 			@RequestParam(value="userId") String userId){
 
 		String id = GenerateSequenceUtil.generateSequenceNo();
-		String url = chart_url_pre + "gaugechart?name=" + name + "&ids=" + ids + "&min=" + min + "&max=" + max;
+		String url = chart_url_pre + "gaugechart?name=" + name + "&ids=" + ids + 
+				"&min=" + min + "&max=" + max + "&rang12=" + rang12 + "&rang23=" + rang23 + 
+				"&rgb1=" + rgb1 + "&rgb2=" + rgb2 + "&rgb3=" + rgb3;
 		
 		Chart lineChart = new Chart(id, name, url, userId);
 		PanelChart panelLineChart = new PanelChart(id, panelId, url, 0, 0, 0, 0);

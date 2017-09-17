@@ -17,6 +17,8 @@
 	rel="stylesheet" />
 <link href="css/mainStyle/charisma-app.css" type="text/css"
 	rel="stylesheet" />
+	
+	<link rel="stylesheet" href="css/colpick/colpick.css" type="text/css"/>
 
 <!-- myCSS -->
 <link href="css/main.css" rel="stylesheet" />
@@ -36,6 +38,29 @@
 		<button class="linechart-refresh-btn btn btn-primary btn-sm"
 			id="refresh" onclick="refresh()">刷新</button>
 	</div>
+	<div class="row">
+		<div class="gaugecolorpick" id="colorpick" hidden="hidden">
+			<label class="colorset">颜色分段设置（%）:</label>
+			<div class="color-box" id="color1"></div>
+			<p id="dataRange">
+				<input type="text" class="datarange" id="rang1-1"
+					disabled="disabled" /> —— <input type="text" class="datarange"
+					id="rang1-2" />
+			</p>
+			<div class="color-box" id="color2"></div>
+			<p id="dataRange">
+				<input type="text" class="datarange" id="rang2-1"
+					disabled="disabled" /> —— <input type="text" class="datarange"
+					id="rang2-2" />
+			</p>
+			<div class="color-box" id="color3"></div>
+			<p id="dataRange">
+				<input type="text" class="datarange" id="rang3-1"
+					disabled="disabled" /> —— <input type="text" class="datarange"
+					id="rang3-2" disabled="disabled" />
+			</p>
+		</div>
+	</div>
 	<div class="chart" id="chart"></div>
 
 	<!-- jQuery -->
@@ -48,6 +73,9 @@
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="js/bootstrap/bootstrap.min.js"></script>
+	
+		<!-- color pick JS -->
+	<script src="js/colpick/colpick.js" type="text/javascript"></script>
 
 	<!-- chart JS -->
 	<script src="js/echarts/echarts.js"></script>
@@ -55,6 +83,7 @@
 	<!-- main JS -->
 	<script src="js/index.js"></script>
 	<script src="js/gaugechart.js"></script>
+	<script src="js/colpick.js"></script>
 
 </body>
 

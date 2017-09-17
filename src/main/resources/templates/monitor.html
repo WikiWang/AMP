@@ -25,6 +25,8 @@
 
 <link rel="stylesheet" href="css/jquery/jquery-ui.min.css"/>
 
+<link rel="stylesheet" href="css/colpick/colpick.css" type="text/css"/>
+
  <!-- myCSS -->
 <link href="css/main.css" rel="stylesheet"/>
 <link href="css/chart.css" rel="stylesheet"/>
@@ -91,7 +93,7 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="time_select">
+						<div class="select">
 							<p id="timeRange">
 								范围：<input type="text" class="range" id="range" />
 							</p>
@@ -116,6 +118,26 @@
 							</div> -->
 							<button class="save-btn btn btn-primary btn-sm" id="refresh" onclick="saveToPanelModal()">保存到仪表盘</button>
 							<button class="refresh-btn btn btn-primary btn-sm" id="refresh" onclick="refresh()">刷新</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="colorpick" id="colorpick" hidden="hidden">
+							<label class="colorset">颜色分段设置（%）:</label>
+							<div class="color-box" id="color1"></div>
+							<p id="dataRange" >
+								<input type="text" class="datarange" id="rang1-1" disabled="disabled" />
+								—— <input type="text" class="datarange" id="rang1-2"/>
+							</p>
+							<div class="color-box" id="color2"></div>
+							<p id="dataRange" >
+								<input type="text" class="datarange" id="rang2-1" disabled="disabled" />
+								—— <input type="text" class="datarange" id="rang2-2"/>
+							</p>
+							<div class="color-box" id="color3"></div>
+							<p id="dataRange" >
+								<input type="text" class="datarange" id="rang3-1" disabled="disabled" />
+								—— <input type="text" class="datarange" id="rang3-2" disabled="disabled" />
+							</p>
 						</div>
 					</div>
 					
@@ -198,11 +220,15 @@
 	<script src="js/echarts/echarts.js"></script>
 	<script src="js/charts.js"></script>
 	
+	<!-- color pick JS -->
+	<script src="js/colpick/colpick.js" type="text/javascript"></script>
+	
 	<!-- main JS -->
 	<script src="js/getzTree.js"></script>
 	<!-- <script src="js/treeDrag.js"></script> -->
 	<script src="js/fixcss.js"></script>
 	<script src="js/index.js"></script>
+	<script src="js/colpick.js"></script>
 	
 </body>
 

@@ -58,7 +58,7 @@
     margin: 5px 10px 1px 4px !important;
 }
 
-.time_select{
+.select{
 	width: 90%;
 	margin-left: 25px;
 }
@@ -102,11 +102,41 @@
 	width: 50px;
 }
 
+.datarange{
+	width: 30px;
+}
+
 .chartTop{
 	height: 40px;
 	padding-top: 5px;
     padding-left: 15px;
 }
+
+.color-box {
+	float:left;
+	width:25px;
+	height:25px;
+	/* margin:5px; */
+	border: 1px solid white;
+}
+
+.colorpick{
+	width: 90%;
+	margin-left: 25px;
+}
+
+.colorset{
+	float:left;
+	margin-right: 15px;
+}
+
+.gaugecolorpick{
+	float:left;
+	height: 40px;
+    padding-left: 15px;
+    min-width: 600px
+}
+
 
 ::-webkit-scrollbar {    
 	width: 10px;

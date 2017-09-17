@@ -5,7 +5,8 @@ $("#chart").css("height", 420);
 
 var myChart = echarts.init(document.getElementById('chart'));  
 var userId;
-window.onresize = myChart.resize;      
+window.onresize = myChart.resize;    
+var name="";
 
 var lineChart = {
 		tooltip : {
@@ -189,12 +190,14 @@ function showLine() {
 	$("#timeMetric").show();
 	$("#minp").hide();
 	$("#maxp").hide();
+	$("#colorpick").hide();
 	RealTimeType = "timeRange";
 	if(chartType != 'line'){
 		chartType='line';
 		clearInterval(interval);
 		myChart.clear();
 	}
+	name="";
 }
 
 function showBar() {
@@ -202,12 +205,14 @@ function showBar() {
 	$("#timeMetric").hide();
 	$("#minp").hide();
 	$("#maxp").hide();
+	$("#colorpick").hide();
 	RealTimeType = "realTime";
 	if(chartType != 'bar'){
 		chartType='bar';
 		clearInterval(interval);
 		myChart.clear();
 	}
+	name="";
 }
 
 function showPie() {
@@ -215,13 +220,14 @@ function showPie() {
 	$("#timeMetric").hide();
 	$("#minp").hide();
 	$("#maxp").hide();
+	$("#colorpick").hide();
 	RealTimeType = "realTime";
 	if(chartType != 'pie'){
 		chartType='pie';
 		clearInterval(interval);
 		myChart.clear();
 	}
-
+	name="";
 }
 
 function showGauge() {
@@ -270,7 +276,6 @@ function refresh() {
 			max = parseInt($("#max").val());
 			interval = setInterval(setSeriexData_RealTime, 5000);
 		}
-
 	}
 }
 
@@ -359,7 +364,7 @@ function setSeriexData_Range(){
 			max:now
 		},
 		series:series
-	}); 
+	});
 }
 
 function setSeriexData_RealTime(){
@@ -374,7 +379,6 @@ function setSeriexData_RealTime(){
 	var dataValue = [];
 	$.each(arr, function(i){//循环得到不同的id的值
 		var idValue = $("#dom_1 span").eq(i).attr("domid");
-		var name = $("#dom_1 span").eq(i).attr("name");
 		if(idValue != ''){
 			ids.push(idValue);
 			$.ajax({
@@ -394,8 +398,11 @@ function setSeriexData_RealTime(){
 						clearInterval(interval);
 						return;
 					}
+					if(name == ""){
+						name = data.name;
+					}
 					dataValue.push({
-						name:data.name,
+						name:name,
 						value:data.value
 					});
 					paramArray.push(data.name);
@@ -440,8 +447,25 @@ function setSeriexData_RealTime(){
 		gaugeChart.series[0].data[0] = dataValue[0];
 		gaugeChart.series[0].min = min;
 		gaugeChart.series[0].max = max;
+		if($("#rang1-1").val() == ""){
+			$("#rang1-1").val(0);
+			$("#rang1-2").val(20);
+			$("#rang2-1").val(20);
+			$("#rang2-2").val(80);
+			$("#rang3-1").val(80);
+			$("#rang3-2").val(100);
+		}
+		var rang1 = parseFloat($("#rang1-2").val())/100;
+		var rang2 = parseFloat($("#rang2-2").val())/100;
+		var rang3 = parseFloat($("#rang3-2").val())/100;
+		var rgb1 = $("#color1").css('background-color'); 
+		var rgb2 = $("#color2").css('background-color'); 
+		var rgb3 = $("#color3").css('background-color'); 
+		var colorArray = [[rang1, rgb1],[rang2, rgb2],[rang3, rgb3]];
+		gaugeChart.series[0].axisLine.lineStyle.color = colorArray;
 		myChart.setOption(gaugeChart,true);
 		myChart.hideLoading();
+		$("#colorpick").show();
 	}
 //	myChart.hideLoading();
 //	myChart.setOption({
@@ -471,7 +495,7 @@ function saveToPanelModal() {
 function saveToPanel() {
 	var idsString=ids.toString();
 	var panelId = $("#panelList").val();
-	var name = $("#chartName").val();
+	name = $("#chartName").val();
 	if(name == ""){
 		alert("请输入名称！");
 	}else if(chartType == "line"){
@@ -490,14 +514,19 @@ function saveToPanel() {
 			}
 		});
 	}else if(chartType == "gauge"){
+		var rgb1 = $("#color1").css('background-color'); 
+		var rgb2 = $("#color2").css('background-color'); 
+		var rgb3 = $("#color3").css('background-color'); 
 		$.ajax({
 			type: 'GET',
 			url: "/Monitoring/saveGaugeChart",
 			async: false,
-			data: {ids:idsString, name:name, chartType:chartType, min:min, max:max, panelId:panelId, userId:userId},
+			data: {ids:idsString, name:name, chartType:chartType, min:min, max:max, rang12:$("#rang1-2").val(), rang23:$("#rang2-2").val(), rgb1:rgb1, rgb2:rgb2, rgb3:rgb3, panelId:panelId, userId:userId},
 			dataType: 'json',
 			success:function(data){
 				$('#addToPanelModal').modal('hide');
+				gaugeChart.series[0].data[0].name=name;
+				myChart.setOption(gaugeChart,true);
 			},
 			error:function(XMLHttpRequest, textStatus, errorThrown){
 				$('#addToPanelModal').modal('hide');
@@ -527,3 +556,4 @@ $(".main-menu li").click(function () {
 	$(this).addClass("active");
 	userId = getUrlParam('user');
 });
+
