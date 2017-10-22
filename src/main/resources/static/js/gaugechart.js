@@ -14,6 +14,12 @@ var min;
 var max;
 var series = [];
 var interval = null;
+var rang1;
+var rang2;
+var rang3;
+var rgb1; 
+var rgb2; 
+var rgb3; 
 
 $(document).ready(function(){
 	name = getUrlParam('name');
@@ -28,15 +34,13 @@ $(document).ready(function(){
         effect: 'whirling'
     });
 	interval = setInterval(setSeriexData, 5000);
-	$("#rang1-1").val(0);
-	$("#rang1-2").val(getUrlParam('rang12'));
-	$("#rang2-1").val(getUrlParam('rang12'));
-	$("#rang2-2").val(getUrlParam('rang23'));
-	$("#rang3-1").val(getUrlParam('rang23'));
-	$("#rang3-2").val(100);
-	$("#color1").css('background-color', getUrlParam('rgb1'));
-	$("#color2").css('background-color', getUrlParam('rgb2'));
-	$("#color3").css('background-color', getUrlParam('rgb3'));
+	rang1 = parseFloat(getUrlParam('rang12'))/100;
+	rang2 = parseFloat(getUrlParam('rang23'))/100;
+	rang3 = 1;
+	rgb1 = getUrlParam('rgb1'); 
+	rgb2 = getUrlParam('rgb2'); 
+	rgb3 = getUrlParam('rgb3'); 
+
 });
 
 window.onresize = myChart.resize;      
@@ -140,12 +144,6 @@ function setSeriexData(){
 	gaugeChart.series[0].data[0] = item;
 	gaugeChart.series[0].min = min;
 	gaugeChart.series[0].max = max;
-	var rang1 = parseFloat($("#rang1-2").val())/100;
-	var rang2 = parseFloat($("#rang2-2").val())/100;
-	var rang3 = parseFloat($("#rang3-2").val())/100;
-	var rgb1 = $("#color1").css('background-color'); 
-	var rgb2 = $("#color2").css('background-color'); 
-	var rgb3 = $("#color3").css('background-color'); 
 	var colorArray = [[rang1, rgb1],[rang2, rgb2],[rang3, rgb3]];
 	gaugeChart.series[0].axisLine.lineStyle.color = colorArray;
 //	gaugeChart.series[0].data[0].value = dataValue[0];

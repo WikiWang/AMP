@@ -30,36 +30,11 @@
 
 	<div class="chartTop">
 		<p id="minp">
-			最小值：<input type="text" class="range" id="min" />
+			最小值：<input type="text" class="range" id="min" disabled="disabled" />
 		</p>
 		<p id="maxp">
-			最大值：<input type="text" class="range" id="max" />
+			最大值：<input type="text" class="range" id="max" disabled="disabled" />
 		</p>
-		<button class="linechart-refresh-btn btn btn-primary btn-sm"
-			id="refresh" onclick="refresh()">刷新</button>
-	</div>
-	<div class="row">
-		<div class="gaugecolorpick" id="colorpick" hidden="hidden">
-			<label class="colorset">颜色分段设置（%）:</label>
-			<div class="color-box" id="color1"></div>
-			<p id="dataRange">
-				<input type="text" class="datarange" id="rang1-1"
-					disabled="disabled" /> —— <input type="text" class="datarange"
-					id="rang1-2" />
-			</p>
-			<div class="color-box" id="color2"></div>
-			<p id="dataRange">
-				<input type="text" class="datarange" id="rang2-1"
-					disabled="disabled" /> —— <input type="text" class="datarange"
-					id="rang2-2" />
-			</p>
-			<div class="color-box" id="color3"></div>
-			<p id="dataRange">
-				<input type="text" class="datarange" id="rang3-1"
-					disabled="disabled" /> —— <input type="text" class="datarange"
-					id="rang3-2" disabled="disabled" />
-			</p>
-		</div>
 	</div>
 	<div class="chart" id="chart"></div>
 
