@@ -1,6 +1,23 @@
 $("#chart_panel").css("height", 480);
+var type;
+var mainModelId;
+var packageId;
+var vid;
+var user;
+var versions;
 $(document).ready(function(){
-	$("#chart_table").css('display','none'); 
+	
+	$("#chart_table").css('display','none');
+	type = getUrlParam('type');
+	mainModelId = getUrlParam('mainModelId');
+	packageId = getUrlParam('packageId');
+	vid = getUrlParam('vid');
+	user = getUrlParam('user');
+	var versionstr = getUrlParam("versions");
+	if(versionstr != null){
+		versions = versionstr.split(",");
+	}
+	analysis();
 });
 var myChart = echarts.init(document.getElementById('chart_panel'));  
 
@@ -156,7 +173,7 @@ function showPieChart() {
 		}
 		pieChart.series[0].data = seriesData;
 	}else{
-		alert("请选择一个实例多个属性或一个属性多个实例");
+		alert("请选择个一个版本");
 		$("#chart_selector ").val(lastChartSelectorValue);
 		return;
 	}
@@ -224,7 +241,6 @@ function getAreaSeries(){
 
 }
 
-
 function showBarChart() {
 	var barChart = {
 			title : {
@@ -277,7 +293,6 @@ function getBarSeries(){
     }
 	return series;
 }
-
 
 function showScatterChart() {
 	
@@ -378,43 +393,27 @@ function analysis() {
 	$("#chart_table").css('display','block'); 
 	$("#chart_panel").css('display','none');
 	document.getElementById("progressBar").style.visibility="visible";
-	if(interval != null){
-		clearInterval(interval);
-	}
-	interval = setInterval(initTransac, 3000);
+	initTransac();
 }
 
 function initTransac(){
-	var leftTree = $.fn.zTree.getZTreeObj("tree");
-	var milldeTree = $.fn.zTree.getZTreeObj("param_list_tree");
-	var leftNodes = leftTree.getCheckedNodes(true);
-	var middleNodes = milldeTree.getCheckedNodes(true);
 
 	var table = $("#tableChart");
 	var thead = table.find("thead");
 	var thRows =  thead.find("tr:has(th)");
-//	thRows.remove();
 	$("#tableChart tr").remove();
 
 	var newRow = "<tr><td></td>";
 
-//	$("table thead").append($("tbody tr:eq(0)"));
-//	var newRow = "<tr><td>新行第一列</td><td>新行第二列</td><td>新行第三列</td><td>新行第四列</td><td>新行第五列</td></tr>";
-//	$("#table thead tr:last").after(newRow);
-
-//	var copy = thRows.clone(true).appendTo("thead");"<td>新行第二列</td><td>新行第三列</td><td>新行第四列</td><td>新行第五列</td></tr>";
-
 	/*定义存储表格内容的数组*/
-	dataArray = new Array();  
+	dataArray = new Array();
 	paramArray = new Array();
 	mainArray = new Array();
 
 	/*设置表头*/
-	for(var i=0; i<leftNodes.length; i++){
-		if(!leftNodes[i].isParent){
-			newRow += "<td>"+ leftNodes[i].name +"</td>";
-			mainArray.push(leftNodes[i].name);
-		}
+	for(var i=0; i<versions.length; i++){
+			newRow += "<td>"+ versions[i] +"</td>";
+			mainArray.push(versions[i]);
 	}
 	mainArray.reverse();
 	newRow += "</tr>";
@@ -422,53 +421,39 @@ function initTransac(){
 
 	/*设置表格内容*/
 	var tbody = table.find("tbody");
-	type = getUrlParam('type');
-	mainId = getUrlParam('id');
-	for(var k=0; k<middleNodes.length; k++){
-		if(!middleNodes[k].isParent){
-			paramArray.push(middleNodes[k].name);
+	var colArray = new Array();//表格列数据
+	/*获取表格数据*/
+	for(var k=0; k<versions.length; k++){
+		$.ajax({
+			type: 'GET',
+			url: "/compareAnalysis/DataValue",
+			async: false,
+			data: {type:type, mainModelId:mainModelId, packageId:packageId, vid:vid, user:user, version:versions[k]},
+			dataType: 'json',
+			success:function(data){
+				colArray.push(data);
+			},
+		});
+	}
+	var ifFirstValue;
+	var ifSame;
+	if(colArray.length > 0){
+		for(var j=0; j<colArray[0].length; j++){
+			ifFirstValue=true;
+			ifSame = true;
 			var rowArray = new Array();//表格行数据
-			var newTdRow = "<td>" + middleNodes[k].name + "</td>";
-			var ifSame = true;
-			var ifFirstValue=true;
-			var lastValue;
-			var version="";
-			for(var j=0; j<leftNodes.length; j++){
-				if(!leftNodes[j].isParent){
-					version += leftNodes[j].version + ",";
+			paramArray.push(colArray[0][j].name);
+			var newTdRow = "<td>" + colArray[0][j].name + "</td>";
+			for(var m=0; m<versions.length; m++){
+				newTdRow += "<td>"+ colArray[m][j].value +"</td>";
+				rowArray.push(colArray[m][j].value);
+				if(ifFirstValue){
+					lastValue = colArray[m][j].value;
+					ifFirstValue = false;
+				}else if(lastValue != colArray[m][j].value){
+					ifSame = false;
 				}
 			}
-			$.ajax({
-				type: 'GET',
-				url: "/Analysis/DataValue",
-				async: false,
-				data: {id:mainId, parentId:middleNodes[k].id, version:version, type:type},
-				dataType: 'json',
-				success:function(data){
-					for(var i=0; i<data.length; i++){
-						if(data[i] != null){
-							newTdRow += "<td>"+ data[i].value +"</td>";
-							rowArray.push(data[i].value);
-							if(ifFirstValue){
-								lastValue = data[i].value;
-								ifFirstValue = false;
-							}else if(lastValue != data[i].value){
-								ifSame = false;
-							}
-						}else{
-							newTdRow += "<td></td>";
-							rowArray.push(null);
-						}
-					}
-				},
-				error:function (XMLHttpRequest, textStatus, errorThrown) 
-				{ 
-					for(var i=0; i<leftNodes.length; i++){
-						newTdRow += "<td></td>";
-						rowArray.push(null);
-					}
-				} 
-			});
 			rowArray.reverse();
 			dataArray.push(rowArray);
 			if(ifSame){
@@ -479,13 +464,11 @@ function initTransac(){
 			tbody.append(newTdRow);
 		}
 	}
+	
 	$("#chart_selector ").val(1);
 	lastChartSelectorValue = 1;
 	document.getElementById("progressBar").style.visibility="hidden";
 	showTable();
-	if(interval != null){
-		clearInterval(interval);
-	}
 }
 
 $(":radio").click(function(){

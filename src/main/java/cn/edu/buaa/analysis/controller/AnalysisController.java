@@ -16,4 +16,8 @@ public class AnalysisController {
 	public String DAnalysis(Model model){
 		return "2DAnalysis";
 	}
+	@RequestMapping(value="/compareAnalysis", method = RequestMethod.GET)
+	public String compareAnalysis(Model model){
+		return "compareAnalysis";
+	}
 }

@@ -175,8 +175,8 @@ function initTransac(){
 			var yArr = y.split(',');
 			for(var i=0; i<xArr.length,i<yArr.length; i++){
 				var xy = new Array();
-				xy[0] = parseInt(xArr[i]);
-				xy[1] = parseInt(yArr[i]);
+				xy[0] = parseFloat(xArr[i]);
+				xy[1] = parseFloat(yArr[i]);
 				temp.push(xy);
 			}
 		}
