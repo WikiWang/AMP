@@ -114,9 +114,9 @@ public class AnalysisRestController {
 			@RequestParam(value="version") String version){
 		String fileData_url;
 		if("0".equals(type)){
-			fileData_url = env.getProperty("mainModel__analysis_fileData_url") + "?" + "mainModelId=" + mainModelId + "vid=" + vid + "user=" + user + "&version=" + version;
+			fileData_url = env.getProperty("mainModel__analysis_fileData_url") + "?" + "mainModelId=" + mainModelId + "&vid=" + vid + "&user=" + user + "&version=" + version;
 		}else{
-			fileData_url = env.getProperty("package__analysis_fileData_url") + "?" + "mainModelId=" + mainModelId + "packageId=" + packageId + "vid=" + vid + "user=" + user + "&version=" + version;
+			fileData_url = env.getProperty("package__analysis_fileData_url") + "?" + "mainModelId=" + mainModelId + "&packageId=" + packageId + "&vid=" + vid + "&user=" + user + "&version=" + version;
 		}
 		return dataValueService.queryDataValue(fileData_url);
 	}

@@ -347,7 +347,7 @@ div.center,p.center,img.center {
 
 .sidebar-nav {
 	min-height: 450px;
-	min-width: 155px;
+	/* min-width: 155px; */
 	box-shadow: 0 0 10px #BDBDBD;
 	border-radius: 5px;
 	margin-bottom: 0;
