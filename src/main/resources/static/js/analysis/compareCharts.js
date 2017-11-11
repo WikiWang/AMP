@@ -13,7 +13,7 @@ $(document).ready(function(){
 	packageId = getUrlParam('packageId');
 	vid = getUrlParam('vid');
 	user = getUrlParam('user');
-	var versionstr = getUrlParam("version");
+	var versionstr = getUrlParam("versions");
 	if(versionstr != null){
 		versions = versionstr.split(",");
 	}

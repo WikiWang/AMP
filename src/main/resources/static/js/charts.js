@@ -402,7 +402,7 @@ function setSeriexData_RealTime(){
 						name = data.name;
 					}
 					dataValue.push({
-						name:name,
+						name:data.name,
 						value:data.value
 					});
 					paramArray.push(data.name);
